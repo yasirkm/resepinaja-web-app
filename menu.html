@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Resep Makanan</title>
-  <link rel="stylesheet" href="static/css/style2.css">
+  <link rel="stylesheet" href="{{ asset('static/css/style2.css') }}">
 </head>
 
 <body>
@@ -18,9 +18,9 @@
     <div class="recipe-list">
       <h2>Daftar Resep</h2>
       <ul id="recipe-list">
-        <li onclick="showRecipe(0)">Resep 1</li>
-        <li onclick="showRecipe(1)">Resep 2</li>
-        <li onclick="showRecipe(2)">Resep 3</li>
+        @foreach ($recipes as $key => $recipe)
+        <li onclick="showRecipe({{ $key }})">{{ $recipe->title }}</li>
+        @endforeach
       </ul>
       <div class="add-button">
         <button onclick="showAddRecipeForm()">Tambah Resep +</button>
@@ -35,21 +35,22 @@
     <div class="modal">
       <button class="modal-close" onclick="hideAddRecipeForm()">close</button>
       <h2>Tambah Resep</h2>
-      <form onsubmit="addRecipe(event)">
+      <form action="{{ route('recipes.store') }}" method="POST">
+        @csrf
         <label for="recipe-title">Judul Resep:</label>
-        <input type="text" id="recipe-title" required>
+        <input type="text" id="recipe-title" name="title" required>
         <label for="recipe-tools">Alat:</label>
-        <textarea id="recipe-tools" rows="2" required></textarea>
+        <textarea id="recipe-tools" name="tools" rows="2" required></textarea>
         <label for="recipe-ingredients">Bahan:</label>
-        <textarea id="recipe-ingredients" rows="3" required></textarea>
+        <textarea id="recipe-ingredients" name="ingredients" rows="3" required></textarea>
         <label for="recipe-instructions">Cara Membuat:</label>
-        <textarea id="recipe-instructions" rows="5" required></textarea>
+        <textarea id="recipe-instructions" name="instructions" rows="5" required></textarea>
         <button type="submit">+</button>
       </form>
     </div>
   </div>
 
-  <script src="static/js/script2.js"></script>
+  <script src="{{ asset('static/js/script2.js') }}"></script>
 </body>
 
 </html>
